@@ -53,13 +53,15 @@ TaskManager <- R6::R6Class("TaskManager",
     private = list(
         cpus = NULL,
         pending_tasks = NULL,
-        running_tasks = NULL
+        running_tasks = NULL,
+        name = NULL
     ),
     public = list(
-        initialize = function() {
+        initialize = function(name) {
             private$cpus <- parallel::detectCores()
             private$pending_tasks <- collections::ordered_dict()
             private$running_tasks <- collections::ordered_dict()
+            private$name <- name
         },
         add_task = function(id, task) {
             private$pending_tasks$set(id, task)
@@ -90,6 +92,8 @@ TaskManager <- R6::R6Class("TaskManager",
             for (key in keys) {
                 task <- running_tasks$get(key)
                 if (task$check()) {
+                    # FIXME: debug
+                    logger$info(private$name, "task timing:", Sys.time() - task$time, key)
                     running_tasks$remove(key)
                 }
             }

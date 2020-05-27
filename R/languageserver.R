@@ -52,9 +52,9 @@ LanguageServer <- R6::R6Class("LanguageServer",
             self$inputcon <- inputcon
             self$outputcon <- outputcon
 
-            self$diagnostics_task_manager <- TaskManager$new()
-            self$parse_task_manager <- TaskManager$new()
-            self$resolve_task_manager <- TaskManager$new()
+            self$diagnostics_task_manager <- TaskManager$new("diagnostics")
+            self$parse_task_manager <- TaskManager$new("parse")
+            self$resolve_task_manager <- TaskManager$new("resolve")
 
             self$pending_replies <- collections::dict()
 
